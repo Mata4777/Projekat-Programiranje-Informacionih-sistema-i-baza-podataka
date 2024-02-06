@@ -1,10 +1,11 @@
 import Carousel from "react-bootstrap/Carousel";
 import Image from "react-bootstrap/Image";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 const CarouselSlide = ({ items }) => {
   const carouselHeight = "500px"; // Set the desired height for the Carousel
-  const carouselWidth = "950px";
+  const carouselWidth = "1000px";
 
   return (
     <Carousel
@@ -13,16 +14,18 @@ const CarouselSlide = ({ items }) => {
     >
       {items.map((item) => (
         <Carousel.Item key={item.id}>
-          <Image
-            src={item.slika}
-            alt={`Image for ${item.naslov}`}
-            fluid
-            style={{ height: carouselHeight, width: carouselWidth }}
-          />
-          <Carousel.Caption>
-            <h3>{item.naslov}</h3>
-            <p>{item.tekst}</p>
-          </Carousel.Caption>
+          <Link to={`/News/${item.id}`}>
+            <Image
+              src={item.slika}
+              alt={`Image for ${item.naslov}`}
+              fluid
+              style={{ height: carouselHeight, width: carouselWidth }}
+            />
+            <Carousel.Caption>
+              <h3>{item.naslov}</h3>
+              <p>{item.tekst}</p>
+            </Carousel.Caption>
+          </Link>
         </Carousel.Item>
       ))}
     </Carousel>

@@ -8,12 +8,14 @@ const Login = () => {
   const navigate = useNavigate();
 
   const user = {
+    id: 1,
     username: "nemanja@gmail.com",
     password: "nemanja123",
     role: "novinar",
   };
 
   const user2 = {
+    id: 2,
     username: "mirko@gmail.com",
     password: "mirko123",
     role: "urednik",
@@ -34,9 +36,9 @@ const Login = () => {
         enteredUsername === user.username ? user : user2;
 
       if (authenticatedUser.role === "novinar") {
-        navigate("/Novinar");
+        navigate(`/Novinar/${authenticatedUser.id}`);
       } else if (authenticatedUser.role === "urednik") {
-        navigate("/Urednik");
+        navigate(`/Urednik/${authenticatedUser.id}`);
       } else {
         alert("Unknown user role");
       }

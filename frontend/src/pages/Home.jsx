@@ -3,6 +3,8 @@ import Col from "react-bootstrap/Col";
 import CarouselSlide from "../components/Carousel";
 import NewsCard from "../components/NewCard";
 import NavbarHome from "../components/navbars/NavbarHome";
+// import { useEffect, useState } from "react";
+// import axios from "axios";
 
 const Home = () => {
   const news = [
@@ -55,6 +57,17 @@ const Home = () => {
       slika: "src/assets/proba.jpg",
     },
   ];
+  // const [news, setNews] = useState([]);
+
+  // useEffect(() => {
+  //   loadNews();
+  // }, []);
+
+  // const loadNews = async () => {
+  //   const result = await axios.get("http://localhost:8080/");
+  //   setNews(result.data);
+  // };
+
   const carouselItems = news.slice(0, 3);
   const cardItems = news.slice(3);
 
