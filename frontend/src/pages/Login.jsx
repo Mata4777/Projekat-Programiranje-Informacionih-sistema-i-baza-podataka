@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -6,44 +7,41 @@ import "./Login.css";
 
 const Login = () => {
   const navigate = useNavigate();
+  const [error, setError] = useState("");
 
-  const user = {
-    id: 1,
-    username: "nemanja@gmail.com",
-    password: "nemanja123",
-    role: "novinar",
-  };
-
-  const user2 = {
-    id: 2,
-    username: "mirko@gmail.com",
-    password: "mirko123",
-    role: "urednik",
-  };
-
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
-    const enteredUsername = e.target.elements.email.value;
+    const enteredUsername = e.target.elements.username.value;
     const enteredPassword = e.target.elements.password.value;
 
-    if (
-      (enteredUsername === user.username &&
-        enteredPassword === user.password) ||
-      (enteredUsername === user2.username && enteredPassword === user2.password)
-    ) {
-      const authenticatedUser =
-        enteredUsername === user.username ? user : user2;
+    try {
+      const formData = new FormData();
+      formData.append("username", enteredUsername);
+      formData.append("password", enteredPassword);
 
-      if (authenticatedUser.role === "novinar") {
-        navigate(`/Novinar/${authenticatedUser.id}`);
-      } else if (authenticatedUser.role === "urednik") {
-        navigate(`/Urednik/${authenticatedUser.id}`);
+      const response = await fetch("http://localhost:8080/login", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (response.ok) {
+        const userData = await response.json();
+        console.log(userData);
+
+        if (userData.role === "ROLE_NOVINAR") {
+          navigate(`/Novinar/${userData.userId}`);
+        } else if (userData.role === "ROLE_UREDNIK") {
+          navigate(`/Urednik/${userData.userId}`);
+        } else {
+          setError("Unknown user role");
+        }
       } else {
-        alert("Unknown user role");
+        setError("Invalid credentials");
       }
-    } else {
-      alert("Invalid credentials");
+    } catch (error) {
+      console.error("Error during login:", error);
+      setError("Error during login");
     }
   };
 
@@ -51,10 +49,15 @@ const Login = () => {
     <div>
       <Container className="logInContainer">
         <h2 className="loginTitle">Log In</h2>
+        {error && <div className="error">{error}</div>}
         <Form onSubmit={handleLogin}>
           <Form.Group className="mb-5" controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>
-            <Form.Control type="email" placeholder="Enter email" name="email" />
+            <Form.Control
+              type="text"
+              placeholder="Enter email"
+              name="username"
+            />
           </Form.Group>
 
           <Form.Group className="mb-5" controlId="formBasicPassword">

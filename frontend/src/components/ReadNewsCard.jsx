@@ -1,12 +1,32 @@
-import { Card } from "react-bootstrap";
+import { Card, Button } from "react-bootstrap";
+import { useState, useEffect } from "react";
+import { FaThumbsUp } from "react-icons/fa";
+
 const ReadNewsCard = () => {
+  const initialLikeCount = parseInt(localStorage.getItem("likeCount")) || 0;
+  const [likeCount, setLikeCount] = useState(initialLikeCount);
+  const [isLiked, setIsLiked] = useState(false);
+
+  const handleLikeClick = () => {
+    if (!isLiked) {
+      setLikeCount(likeCount + 1);
+    } else {
+      setLikeCount(likeCount - 1);
+    }
+    setIsLiked(!isLiked);
+  };
+
+  useEffect(() => {
+    localStorage.setItem("likeCount", likeCount.toString());
+  }, [likeCount]);
+
   return (
     <div>
       <Card className="mx-auto mt-5" style={{ width: "1200px" }}>
         <Card.Img
           style={{ width: "80%", margin: "0 auto" }}
           variant="top"
-          src="src\assets\proba.jpg"
+          src="src/assets/proba.jpg"
         />
         <Card.Body>
           <Card.Title className="text-center">Big News Title</Card.Title>
@@ -65,6 +85,14 @@ const ReadNewsCard = () => {
             finibus, nibh enim tincidunt dolor, in finibus erat lectus id quam.
             Integer eu.
           </Card.Text>
+
+          {/* Like Button with ThumbsUp icon */}
+          <Button
+            variant={isLiked ? "success" : "primary"}
+            onClick={handleLikeClick}
+          >
+            <FaThumbsUp /> ({likeCount})
+          </Button>
         </Card.Body>
       </Card>
     </div>
