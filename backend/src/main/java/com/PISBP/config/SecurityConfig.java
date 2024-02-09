@@ -38,7 +38,7 @@ public class SecurityConfig{
                 .cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()).and()
                 .authorizeHttpRequests(request->request
                         .requestMatchers("/", "/home").permitAll()
-                        .requestMatchers("/api/hello").hasRole("USER")
+                        .requestMatchers("/api/hello").authenticated()
                         .anyRequest().authenticated())
                 .formLogin().successHandler(new AuthenticationSuccessHandler() {
                     @Override

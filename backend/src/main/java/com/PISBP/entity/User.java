@@ -3,6 +3,7 @@ package com.PISBP.entity;
 
 import jakarta.persistence.*;
 
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -19,6 +20,14 @@ public class User {
     private Boolean active;
 
     private String roles;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_rubrika",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "rubrika_id")
+    )
+    private List<Rubrika> rubrike;
 
     public User(){}
 
