@@ -1,4 +1,5 @@
-import NewsCard from "../components/NewCard";
+import { Link } from "react-router-dom";
+import NewsCard from "../components/NewsCard";
 import NavbarNovinar from "../components/navbars/NavBarNovinar";
 import { Row, Col } from "react-bootstrap";
 
@@ -59,7 +60,9 @@ const HomeNovinar = () => {
       <Row className="g-4 mt-5">
         {news.map((vest) => (
           <Col key={vest.id} xs={12} md={6} lg={4}>
-            <NewsCard {...vest} />
+            <Link to={`/NewsNovinar/${vest.id}`}>
+              <NewsCard {...vest} />
+            </Link>
           </Col>
         ))}
       </Row>

@@ -1,4 +1,4 @@
-import Button from "react-bootstrap/Button";
+import { useUser } from "../UserHooks";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
@@ -7,6 +7,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 
 const NavbarUrednik = () => {
+  const { userData } = useUser();
   return (
     <div>
       <Navbar fixed="top" expand="lg" className="bg-body-tertiary">
@@ -20,19 +21,12 @@ const NavbarUrednik = () => {
               style={{ maxHeight: "100px" }}
               navbarScroll
             ></Nav>
-            <div className="ms-auto d-flex me-3">
-              <Button variant="outline-success">Archive</Button>
-            </div>
 
             <Form className="d-flex">
-              <Form.Control
-                type="search"
-                placeholder="Search"
-                className="me-3"
-                aria-label="Search"
-                style={{ width: "400px", fontSize: "1.2rem" }}
-              />
-              <DropdownButton id="dropdown-basic-button" title="Urednik">
+              <DropdownButton
+                id="dropdown-basic-button"
+                title={userData ? userData.username : "User"}
+              >
                 <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
                 <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
                 <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>

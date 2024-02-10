@@ -2,7 +2,7 @@ import NewsCard from "../components/NewsCard";
 import NavBarNovinar from "../components/navbars/NavbarUrednik";
 import { Row, Col } from "react-bootstrap";
 
-const HomeUrednik = () => {
+const HomeGlavniUrednik = () => {
   const news = [
     {
       id: "1",
@@ -56,7 +56,7 @@ const HomeUrednik = () => {
   return (
     <div>
       <NavBarNovinar />
-      <h2>UREDNIK</h2>
+      <h2>GLAVNI UREDNIK</h2>
       <Row className="g-4 mt-5">
         {news.map((vest) => (
           <Col key={vest.id} xs={12} md={6} lg={4}>
@@ -68,4 +68,4 @@ const HomeUrednik = () => {
   );
 };
 
-export default HomeUrednik;
+export default HomeGlavniUrednik;

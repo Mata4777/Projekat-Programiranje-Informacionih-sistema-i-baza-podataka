@@ -1,3 +1,4 @@
+import { useUser } from "../components/UserHooks";
 import { useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -6,14 +7,18 @@ import Button from "react-bootstrap/Button";
 import Dropdown from "react-bootstrap/Dropdown";
 import FormCheck from "react-bootstrap/FormCheck";
 import NavbarNovinar from "../components/navbars/NavBarNovinar";
+import axios from "axios";
 
 const CreateNewsPage = () => {
+  const { userData } = useUser();
   const [newsData, setNewsData] = useState({
     title: "",
     coverPhoto: "",
+    tag: "",
     text: "",
-    categories: [],
+    category: "", // Use a single category instead of an array
   });
+  console.log(userData);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -30,27 +35,35 @@ const CreateNewsPage = () => {
     }));
   };
 
-  const handleCategoryToggle = (category) => {
-    const updatedCategories = newsData.categories.includes(category)
-      ? newsData.categories.filter(
-          (selectedCategory) => selectedCategory !== category
-        )
-      : [...newsData.categories, category];
-
+  const handleCategorySelect = (category) => {
     setNewsData((prevData) => ({
       ...prevData,
-      categories: updatedCategories,
+      category,
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Submitted data:", newsData);
+    console.log("Submited");
+
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/api/vest/new",
+        newsData
+      );
+
+      console.log(response); // Check the response in the console
+
+      console.log("News created successfully");
+      // Optionally, you can navigate to a success page or perform other actions
+    } catch (error) {
+      console.error("Error during news creation:", error);
+    }
   };
+  console.log(newsData);
 
   const categoryOptions = ["Politics", "Technology", "Sports", "Entertainment"];
 
-  console.log(newsData);
   return (
     <div>
       <NavbarNovinar />
@@ -59,17 +72,17 @@ const CreateNewsPage = () => {
         <Form onSubmit={handleSubmit}>
           <Dropdown className="mb-2">
             <Dropdown.Toggle variant="secondary" id="categoriesDropdown">
-              Select Categories
+              Select Category
             </Dropdown.Toggle>
             <Dropdown.Menu className="p-3">
               {categoryOptions.map((category) => (
                 <FormCheck
                   style={{ fontSize: "17px" }}
                   key={category}
-                  type="checkbox"
+                  type="radio" // Use radio buttons
                   label={category}
-                  checked={newsData.categories.includes(category)}
-                  onChange={() => handleCategoryToggle(category)}
+                  checked={newsData.category === category}
+                  onChange={() => handleCategorySelect(category)}
                 />
               ))}
             </Dropdown.Menu>
@@ -82,6 +95,17 @@ const CreateNewsPage = () => {
               placeholder="Enter title"
               name="title"
               value={newsData.title}
+              onChange={handleInputChange}
+            />
+          </Form.Group>
+          {/* Tag */}
+          <Form.Group controlId="formTitle">
+            <Form.Label>Tag</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter tag"
+              name="tag"
+              value={newsData.tag}
               onChange={handleInputChange}
             />
           </Form.Group>
@@ -108,13 +132,13 @@ const CreateNewsPage = () => {
               style={{ height: "300px" }}
             />
           </Form.Group>
+          <Button className="mx-auto mt-5" variant="primary" type="submit">
+            Submit
+          </Button>
         </Form>
       </div>
 
       {/* Submit Button */}
-      <Button className="mx-auto mt-5" variant="primary" type="submit">
-        Submit
-      </Button>
     </div>
   );
 };
