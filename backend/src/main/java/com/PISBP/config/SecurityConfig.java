@@ -38,8 +38,8 @@ public class SecurityConfig{
                 .cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()).and()
                 .authorizeHttpRequests(request->request
                         .requestMatchers("/", "/home").permitAll()
-                        .requestMatchers("/api/hello").authenticated()
-                        .anyRequest().authenticated())
+                        .requestMatchers("/hello/hello").authenticated()
+                        .anyRequest().permitAll())//.authorized()
                 .formLogin().successHandler(new AuthenticationSuccessHandler() {
                     @Override
                     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
