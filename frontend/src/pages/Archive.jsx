@@ -1,14 +1,14 @@
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import CarouselSlide from "../components/Carousel";
+// Archive.js
+import { useState } from "react";
+import NavbarArchiveSearch from "../components/navbars/NavbarArchiveSearch";
+import { Row, Col } from "react-bootstrap";
 import NewsCard from "../components/NewsCard";
-import NavbarHome from "../components/navbars/NavbarHome";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
 import axios from "axios";
+import { useEffect } from "react";
 
-const Home = () => {
-  // const news = [
+const Archive = () => {
+  // const initialNews = [
   //   {
   //     id: "1",
   //     naslov: "Naslov br 1",
@@ -16,6 +16,7 @@ const Home = () => {
   //     imeAutora: "Nemanja",
   //     prezimeAutora: "Stefanovic",
   //     slika: "src/assets/proba.jpg",
+  //     date: "2024-01-01",
   //   },
   //   {
   //     id: "2",
@@ -24,6 +25,7 @@ const Home = () => {
   //     imeAutora: "Nemanja",
   //     prezimeAutora: "Stefanovic",
   //     slika: "src/assets/proba.jpg",
+  //     date: "2024-02-09",
   //   },
   //   {
   //     id: "3",
@@ -32,6 +34,7 @@ const Home = () => {
   //     imeAutora: "Nemanja",
   //     prezimeAutora: "Stefanovic",
   //     slika: "src/assets/proba.jpg",
+  //     date: "2024-02-01",
   //   },
   //   {
   //     id: "4",
@@ -40,6 +43,7 @@ const Home = () => {
   //     imeAutora: "Nemanja",
   //     prezimeAutora: "Stefanovic",
   //     slika: "src/assets/proba.jpg",
+  //     date: "01-Feb-2024",
   //   },
   //   {
   //     id: "5",
@@ -48,6 +52,7 @@ const Home = () => {
   //     imeAutora: "Nemanja",
   //     prezimeAutora: "Stefanovic",
   //     slika: "src/assets/proba.jpg",
+  //     date: "2024-02-09",
   //   },
   //   {
   //     id: "6",
@@ -56,28 +61,34 @@ const Home = () => {
   //     imeAutora: "Nemanja",
   //     prezimeAutora: "Stefanovic",
   //     slika: "src/assets/proba.jpg",
+  //     date: "2024-02-09",
   //   },
   // ];
-  const [news, setNews] = useState([]);
+  const [allNews, setNews] = useState([]);
 
   useEffect(() => {
     loadNews();
   }, []);
 
   const loadNews = async () => {
-    const result = await axios.get("http://localhost:8080/api/vest/todays");
+    const result = await axios.get("http://localhost:8080/api/vest/all");
     setNews(result.data);
   };
 
-  const carouselItems = news.slice(0, 3);
-  const cardItems = news.slice(3);
+  const [filteredNews, setFilteredNews] = useState(allNews);
+
+  const handleFilterChange = (filteredNewsData) => {
+    setFilteredNews(filteredNewsData);
+  };
 
   return (
     <div>
-      <NavbarHome />
-      <CarouselSlide items={carouselItems} />
+      <NavbarArchiveSearch
+        news={allNews}
+        setFilteredNews={handleFilterChange}
+      />
       <Row className="g-4 mt-5">
-        {cardItems.map((vest) => (
+        {filteredNews.map((vest) => (
           <Col key={vest.id} xs={12} md={6} lg={4}>
             <Link to={`/News/${vest.id}`}>
               <NewsCard {...vest} />
@@ -89,4 +100,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Archive;

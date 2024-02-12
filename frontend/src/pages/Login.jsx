@@ -1,13 +1,16 @@
+// Login.js
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
+import { useUser } from "../components/UserHooks";
 import "./Login.css";
 
 const Login = () => {
   const navigate = useNavigate();
   const [error, setError] = useState("");
+  const { setUser } = useUser();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -19,6 +22,7 @@ const Login = () => {
       const formData = new FormData();
       formData.append("username", enteredUsername);
       formData.append("password", enteredPassword);
+      console.log(formData);
 
       const response = await fetch("http://localhost:8080/login", {
         method: "POST",
@@ -27,12 +31,14 @@ const Login = () => {
 
       if (response.ok) {
         const userData = await response.json();
-        console.log(userData);
+        setUser(userData); // Set user data in the context
 
         if (userData.role === "ROLE_NOVINAR") {
           navigate(`/Novinar/${userData.userId}`);
         } else if (userData.role === "ROLE_UREDNIK") {
           navigate(`/Urednik/${userData.userId}`);
+        } else if (userData.role === "ROLE_GUREDNIK") {
+          navigate(`/GUrednik/${userData.userId}`);
         } else {
           setError("Unknown user role");
         }

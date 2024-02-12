@@ -18,18 +18,11 @@ const NavbarHome = () => {
             style={{ maxHeight: "100px" }}
             navbarScroll
           ></Nav>
-          <div className="ms-auto d-flex me-3">
+          <Link to={`/Archive`} className="ms-auto d-flex me-3">
             <Button variant="outline-success">Archive</Button>
-          </div>
+          </Link>
 
           <Form className="d-flex">
-            <Form.Control
-              type="search"
-              placeholder="Search"
-              className="me-3"
-              aria-label="Search"
-              style={{ width: "400px", fontSize: "1.2rem" }}
-            />
             <Link to={`/Login`} className="btn btn-outline-success">
               Log in
             </Link>

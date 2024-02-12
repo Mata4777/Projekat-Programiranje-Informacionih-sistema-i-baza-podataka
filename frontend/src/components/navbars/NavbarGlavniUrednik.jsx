@@ -1,14 +1,14 @@
-import { useUser } from "../UserHooks";
+import { useUser } from "../components/UserHooks";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
-import { Link } from "react-router-dom";
 
-const NavbarNovinar = () => {
+const NavbarGlavniUrednik = () => {
   const { userData } = useUser();
+
   return (
     <div>
       <Navbar fixed="top" expand="lg" className="bg-body-tertiary">
@@ -28,14 +28,9 @@ const NavbarNovinar = () => {
                 id="dropdown-basic-button"
                 title={userData ? userData.username : "User"}
               >
-                <Dropdown.Item
-                  as={Link}
-                  to={`/Novinar/${userData.userId}/CreateNews`}
-                >
-                  Add news
-                </Dropdown.Item>
+                <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
                 <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                <Dropdown.Item href="#/action-3">Log out</Dropdown.Item>
+                <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
               </DropdownButton>
             </Form>
           </Navbar.Collapse>
@@ -45,4 +40,4 @@ const NavbarNovinar = () => {
   );
 };
 
-export default NavbarNovinar;
+export default NavbarGlavniUrednik;

@@ -1,31 +1,44 @@
 import { Card, Form, Button } from "react-bootstrap";
 import { useState } from "react";
 import PropTypes from "prop-types";
-const Comments = (props) => {
-  // State to manage the new comment
-  const [newComment, setNewComment] = useState({ username: "", comment: "" });
+import { FaThumbsUp } from "react-icons/fa";
 
-  // State to manage the list of comments
+const Comments = (props) => {
+  const [newComment, setNewComment] = useState({ username: "", comment: "" });
   const [comments, setComments] = useState(props.comments);
 
-  // Handle posting a new comment
   const handlePostComment = () => {
-    // Validate that both username and comment are provided
     if (newComment.username && newComment.comment) {
-      // Add the new comment to the list
       const updatedComments = [
         ...comments,
         {
           ...newComment,
           id: comments.length + 1,
           datePosted: new Date().toISOString().slice(0, 10),
+          likes: 0,
+          isLiked: false, // New property to track whether the comment is liked
         },
       ];
       setComments(updatedComments);
-
       setNewComment({ username: "", comment: "" });
     }
   };
+
+  const handleLike = (commentId) => {
+    const updatedComments = comments.map((comment) => {
+      if (comment.id === commentId) {
+        return {
+          ...comment,
+          likes: comment.isLiked ? comment.likes - 1 : comment.likes + 1,
+          isLiked: !comment.isLiked, // Toggle isLiked property
+        };
+      }
+      return comment;
+    });
+
+    setComments(updatedComments);
+  };
+
   return (
     <div>
       <Form>
@@ -68,15 +81,25 @@ const Comments = (props) => {
             key={comment.id}
             className="mb-2 rounded p-4 mt-2 mb-2 shadow-lg"
           >
-            <Card.Header className="d-flex justify-content-start">
-              {comment.username}
+            <Card.Header className="d-flex justify-content-between">
+              <div>{comment.username}</div>
+              <Button
+                variant={comment.isLiked ? "success" : "outline-primary"}
+                onClick={() => handleLike(comment.id)}
+              >
+                <FaThumbsUp className="me-1" />
+                {comment.isLiked ? "Liked" : "Like"}
+              </Button>
             </Card.Header>
             <Card.Body className="d-flex justify-content-start shadow">
               {comment.comment}
             </Card.Body>
-            <small className=" card-footer d-flex justify-content-end font-italic">
-              {comment.datePosted}
-            </small>
+            <Card.Footer>
+              <p>Number of likes: {comment.likes}</p>
+              <small className="d-flex justify-content-end font-italic">
+                {comment.datePosted}
+              </small>
+            </Card.Footer>
           </Card>
         ))}
       </div>
