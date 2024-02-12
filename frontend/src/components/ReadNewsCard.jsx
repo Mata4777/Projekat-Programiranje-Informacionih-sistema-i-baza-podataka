@@ -56,11 +56,6 @@ const ReadNewsCard = () => {
   return (
     <div>
       <Card className="mx-auto mt-5" style={{ width: "1200px" }}>
-        <Card.Img
-          style={{ width: "80%", margin: "0 auto" }}
-          variant="top"
-          src="src/assets/proba.jpg"
-        />
         <Card.Body>
           <Card.Title className="text-center">Big News Title</Card.Title>
 

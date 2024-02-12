@@ -1,6 +1,5 @@
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import CarouselSlide from "../components/Carousel";
 import NewsCard from "../components/NewsCard";
 import NavbarHome from "../components/navbars/NavbarHome";
 import { Link } from "react-router-dom";
@@ -70,16 +69,13 @@ const Home = () => {
   };
   console.log(news);
 
-  const carouselItems = news.slice(0, 3);
-  const cardItems = news.slice(3);
-
   return (
     <div>
       <NavbarHome />
-      <CarouselSlide items={carouselItems} />
+
       <Row className="g-4 mt-5">
-        {Array.isArray(cardItems) &&
-          cardItems.map((vest) => (
+        {Array.isArray(news) &&
+          news.map((vest) => (
             <Col key={vest.id} xs={12} md={6} lg={4}>
               <Link to={`/News/${vest.id}`}>
                 <NewsCard {...vest} />
