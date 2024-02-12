@@ -27,9 +27,9 @@ public class VestService {
         this.rubrikaRepository = rubrikaRepository;
     }
 
-    public boolean saveVest(NewVest vest,String username){
+    public boolean saveVest(NewVest vest){
         Optional<Rubrika> rubrika=rubrikaRepository.findByNaziv(vest.getRubrikaName());
-        Optional<User> user = userRepository.findByUserName(username);
+        Optional<User> user = userRepository.findByUserName(vest.getUsername());
 
         Vest novaVest=Vest.builder()
                 .date(new Date())
