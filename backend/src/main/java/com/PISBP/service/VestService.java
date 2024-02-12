@@ -62,4 +62,9 @@ public class VestService {
         List<VestBaseInfo> res = vesti.stream().map(VestBaseInfo::new).toList();
         return res;
     }
+
+    public Vest getById(Integer vestId) {
+        Optional<Vest> ovest=vestReposotory.findById(vestId);
+        return ovest.orElse(null);
+    }
 }

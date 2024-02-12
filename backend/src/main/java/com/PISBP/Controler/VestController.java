@@ -2,6 +2,7 @@ package com.PISBP.Controler;
 
 import com.PISBP.dao.NewVest;
 import com.PISBP.dao.VestBaseInfo;
+import com.PISBP.entity.Vest;
 import com.PISBP.service.VestService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +36,12 @@ public class VestController {
     public ResponseEntity<List<VestBaseInfo>> getMy(@RequestParam Integer userId){
         List<VestBaseInfo> vesti= vestService.getByUserId(userId);
         return ResponseEntity.ok(vesti);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Vest> getOneVest(@PathVariable(name = "id") Integer id){
+        Vest vest= vestService.getById(id);
+        return ResponseEntity.ok(vest);
     }
 
     @PostMapping("/new")
