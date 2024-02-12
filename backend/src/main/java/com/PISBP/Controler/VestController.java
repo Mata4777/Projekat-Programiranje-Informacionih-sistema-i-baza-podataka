@@ -33,7 +33,7 @@ public class VestController {
 
     @PostMapping("/new")
     public ResponseEntity<String> addVest(@RequestBody NewVest vest, Principal principal){
-        vestService.saveVest(vest,principal.getName());
+        vestService.saveVest(vest);
         return ResponseEntity.ok().body("success");
     }
 

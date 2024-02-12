@@ -5,6 +5,8 @@ import lombok.Getter;
 
 @Getter
 public class NewVest{
+    String username;
+
     String naslov;
 
     String text;
