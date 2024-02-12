@@ -9,7 +9,6 @@ import com.PISBP.repository.RubrikaRepository;
 import com.PISBP.repository.UserRepository;
 import com.PISBP.repository.VestReposotory;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.Date;
 import java.util.List;
@@ -39,7 +38,8 @@ public class VestService {
                 .brojDisajkova(0)
                 .tag(vest.getTag())
                 .rubrika(rubrika.orElse(null))
-                .novinar(user.get()).build();
+                .novinar(user.get())
+                .state("new").build();
 
         vestReposotory.save(novaVest);
         return true;
@@ -53,6 +53,12 @@ public class VestService {
 
     public List<VestBaseInfo> getTodays() {
         List<Vest> vesti= vestReposotory.findTodays();
+        List<VestBaseInfo> res = vesti.stream().map(VestBaseInfo::new).toList();
+        return res;
+    }
+
+    public List<VestBaseInfo> getByUserId(Integer userId) {
+        List<Vest> vesti= vestReposotory.findByNovinarId(userId);
         List<VestBaseInfo> res = vesti.stream().map(VestBaseInfo::new).toList();
         return res;
     }

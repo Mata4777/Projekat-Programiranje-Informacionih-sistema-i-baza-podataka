@@ -31,6 +31,12 @@ public class VestController {
         return ResponseEntity.ok(vesti);
     }
 
+    @GetMapping("/my")
+    public ResponseEntity<List<VestBaseInfo>> getMy(@RequestParam Integer userId){
+        List<VestBaseInfo> vesti= vestService.getByUserId(userId);
+        return ResponseEntity.ok(vesti);
+    }
+
     @PostMapping("/new")
     public ResponseEntity<String> addVest(@RequestBody NewVest vest, Principal principal){
         vestService.saveVest(vest);

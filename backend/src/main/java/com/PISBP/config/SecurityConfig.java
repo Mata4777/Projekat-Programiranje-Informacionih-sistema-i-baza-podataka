@@ -1,13 +1,9 @@
 package com.PISBP.config;
 
-import com.PISBP.MyUserDetails;
 import com.PISBP.common.SuccesHandler;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -28,8 +24,13 @@ import java.util.Arrays;
 @EnableWebSecurity
 public class SecurityConfig{
 
-    @Autowired
-    SuccesHandler succesHandler;
+
+    private final SuccesHandler succesHandler;
+
+    public SecurityConfig(SuccesHandler succesHandler) {
+        this.succesHandler = succesHandler;
+    }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
