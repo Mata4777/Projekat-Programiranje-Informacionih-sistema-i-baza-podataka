@@ -13,6 +13,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class VestBaseInfo {
+    Integer id;
     String naslov;
     String tag;
     Integer brojLajkova;
@@ -21,6 +22,7 @@ public class VestBaseInfo {
     String nazivRubrike;
 
     public VestBaseInfo(Vest vest) {
+        this.id= vest.getId();
         this.naslov = vest.getNaslov();
         this.tag = vest.getTag();
         this.brojLajkova = vest.getBrojLajkova();

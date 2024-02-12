@@ -27,6 +27,7 @@ CREATE TABLE Vest (
     broj_lajkova INTEGER,
     broj_disajkova INTEGER,
     date TIMESTAMP,
+    state VARCHAR(20),
     rubrika_id INTEGER,
     novinar_id INTEGER
 );

@@ -1,6 +1,5 @@
 package com.PISBP.entity;
 
-import com.PISBP.repository.KomentarRepository;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -30,6 +29,8 @@ public class Vest {
     Integer brojDisajkova;
 
     Date date;
+
+    String state;
 
     @ManyToOne
     Rubrika rubrika;
