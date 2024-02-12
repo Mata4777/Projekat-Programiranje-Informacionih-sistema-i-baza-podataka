@@ -56,7 +56,6 @@ const HomeUrednik = () => {
   return (
     <div>
       <NavBarNovinar />
-      <h2>UREDNIK</h2>
       <Row className="g-4 mt-5">
         {news.map((vest) => (
           <Col key={vest.id} xs={12} md={6} lg={4}>

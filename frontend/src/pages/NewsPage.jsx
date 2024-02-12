@@ -13,6 +13,7 @@ const NewsPage = () => {
       comment: "Great news!",
       datePosted: "2022-01-01",
       likes: 11,
+      dislikes: 111,
     },
     {
       id: 2,
@@ -20,6 +21,7 @@ const NewsPage = () => {
       comment: "Interesting article.",
       datePosted: "2022-01-02",
       likes: 22,
+      dislikes: 222,
     },
     {
       id: 3,
@@ -27,6 +29,7 @@ const NewsPage = () => {
       comment: "Looking forward to more updates.",
       datePosted: "2022-01-03",
       likes: 33,
+      dislikes: 333,
     },
   ];
 

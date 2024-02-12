@@ -1,17 +1,25 @@
-import { useUser } from "../components/UserHooks";
+import { useUser } from "../UserHooks";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
+import { Link, useNavigate } from "react-router-dom";
 
 const NavbarGlavniUrednik = () => {
-  const { userData } = useUser();
+  const { userData, setUser } = useUser();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    // Clear user data and navigate to "/"
+    setUser(null);
+    navigate("/");
+  };
 
   return (
     <div>
-      <Navbar fixed="top" expand="lg" className="bg-body-tertiary">
+      <Navbar fixed="top" expand="lg" variant="dark" className="bg-dark shadow">
         <Container fluid>
           <Navbar.Brand href="#">News</Navbar.Brand>
 
@@ -27,10 +35,19 @@ const NavbarGlavniUrednik = () => {
               <DropdownButton
                 id="dropdown-basic-button"
                 title={userData ? userData.username : "User"}
+                drop="start"
               >
-                <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                <Dropdown.Item
+                  as={Link}
+                  to={`/GUrednik/${userData.userId}/Register`}
+                >
+                  Add users
+                </Dropdown.Item>
+                <Dropdown.Item as={Link} to={`/GUrednik/${userData.userId}`}>
+                  Home
+                </Dropdown.Item>
+                <Dropdown.Divider />
+                <Dropdown.Item onClick={handleLogout}>Log out</Dropdown.Item>
               </DropdownButton>
             </Form>
           </Navbar.Collapse>

@@ -68,6 +68,7 @@ const Home = () => {
     const result = await axios.get("http://localhost:8080/api/vest/todays");
     setNews(result.data);
   };
+  console.log(news);
 
   const carouselItems = news.slice(0, 3);
   const cardItems = news.slice(3);
@@ -77,13 +78,14 @@ const Home = () => {
       <NavbarHome />
       <CarouselSlide items={carouselItems} />
       <Row className="g-4 mt-5">
-        {cardItems.map((vest) => (
-          <Col key={vest.id} xs={12} md={6} lg={4}>
-            <Link to={`/News/${vest.id}`}>
-              <NewsCard {...vest} />
-            </Link>
-          </Col>
-        ))}
+        {Array.isArray(cardItems) &&
+          cardItems.map((vest) => (
+            <Col key={vest.id} xs={12} md={6} lg={4}>
+              <Link to={`/News/${vest.id}`}>
+                <NewsCard {...vest} />
+              </Link>
+            </Col>
+          ))}
       </Row>
     </div>
   );

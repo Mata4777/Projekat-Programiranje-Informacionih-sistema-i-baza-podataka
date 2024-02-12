@@ -2,6 +2,7 @@ import { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { Container, Dropdown, FormCheck } from "react-bootstrap";
+import NavbarGlavniUrednik from "../components/navbars/NavbarGlavniUrednik";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -44,7 +45,8 @@ const Register = () => {
 
   return (
     <div>
-      <Container className="p-4 rounded shadow" style={{ width: "500px" }}>
+      <NavbarGlavniUrednik />
+      <Container className="p-4 rounded shadow mt-5" style={{ width: "500px" }}>
         <h2>Register</h2>
         <Form onSubmit={handleSubmit}>
           <Form.Group controlId="firstname">

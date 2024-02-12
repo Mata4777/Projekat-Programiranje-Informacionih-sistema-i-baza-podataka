@@ -34,7 +34,11 @@ const App = () => {
             path="/Novinar/:id/CreateNews"
             element={<CreateNewsPage />}
           ></Route>
-          <Route exact path="/Register" element={<Register />}></Route>
+          <Route
+            exact
+            path="GUrednik/:id/Register"
+            element={<Register />}
+          ></Route>
           <Route exact path="/Archive" element={<Archive />}></Route>
           <Route
             exact

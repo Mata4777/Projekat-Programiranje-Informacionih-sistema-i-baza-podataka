@@ -1,5 +1,5 @@
 import NewsCard from "../components/NewsCard";
-import NavBarNovinar from "../components/navbars/NavbarUrednik";
+import NavbarGlavniUrednik from "../components/navbars/NavbarGlavniUrednik";
 import { Row, Col } from "react-bootstrap";
 
 const HomeGlavniUrednik = () => {
@@ -55,7 +55,7 @@ const HomeGlavniUrednik = () => {
   ];
   return (
     <div>
-      <NavBarNovinar />
+      <NavbarGlavniUrednik />
       <h2>GLAVNI UREDNIK</h2>
       <Row className="g-4 mt-5">
         {news.map((vest) => (

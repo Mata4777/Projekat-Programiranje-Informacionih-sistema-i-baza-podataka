@@ -12,13 +12,14 @@ import axios from "axios";
 const CreateNewsPage = () => {
   const { userData } = useUser();
   const [newsData, setNewsData] = useState({
-    title: "",
-    coverPhoto: "",
+    naslov: "",
+    //coverPhoto: "",
     tag: "",
     text: "",
-    category: "", // Use a single category instead of an array
+    rubrikaName: "",
+    username: userData.username, // Use a single category instead of an array
   });
-  console.log(userData);
+  console.log("USER DATA " + userData.username);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -49,20 +50,31 @@ const CreateNewsPage = () => {
     try {
       const response = await axios.post(
         "http://localhost:8080/api/vest/new",
-        newsData
+        newsData,
+        {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
       );
 
       console.log(response); // Check the response in the console
 
-      console.log("News created successfully");
-      // Optionally, you can navigate to a success page or perform other actions
+      if (response.ok) {
+        console.log("News created successfully");
+        // Optionally, you can navigate to a success page or perform other actions
+      } else {
+        console.error("Error during news creation:", response.statusText);
+      }
     } catch (error) {
       console.error("Error during news creation:", error);
     }
   };
+
   console.log(newsData);
 
-  const categoryOptions = ["Politics", "Technology", "Sports", "Entertainment"];
+  const categoryOptions = ["Politics", "Technology", "sport", "Entertainment"];
 
   return (
     <div>
@@ -79,10 +91,11 @@ const CreateNewsPage = () => {
                 <FormCheck
                   style={{ fontSize: "17px" }}
                   key={category}
-                  type="radio" // Use radio buttons
+                  type="radio"
                   label={category}
-                  checked={newsData.category === category}
+                  checked={newsData.rubrikaName === category}
                   onChange={() => handleCategorySelect(category)}
+                  name="category"
                 />
               ))}
             </Dropdown.Menu>
@@ -93,7 +106,7 @@ const CreateNewsPage = () => {
             <Form.Control
               type="text"
               placeholder="Enter title"
-              name="title"
+              name="naslov"
               value={newsData.title}
               onChange={handleInputChange}
             />
@@ -114,7 +127,7 @@ const CreateNewsPage = () => {
           <Form.Group controlId="formCoverPhoto">
             <Form.Label>Cover Photo URL</Form.Label>
             <Form.Control
-              type="text"
+              type="file"
               placeholder="Enter cover photo URL"
               name="coverPhoto"
               value={newsData.coverPhoto}

@@ -42,7 +42,7 @@ const NavbarArchiveSearch = ({ news, setFilteredNews }) => {
   };
 
   return (
-    <Navbar fixed="top" expand="lg" className="bg-body-tertiary">
+    <Navbar fixed="top" expand="lg" variant="dark" className="bg-dark shadow">
       <Container fluid>
         <Navbar.Brand href="#">News</Navbar.Brand>
 

@@ -1,7 +1,7 @@
 import { Card, Form, Button } from "react-bootstrap";
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { FaThumbsUp } from "react-icons/fa";
+import { FaThumbsUp, FaThumbsDown } from "react-icons/fa";
 
 const Comments = (props) => {
   const [newComment, setNewComment] = useState({ username: "", comment: "" });
@@ -16,7 +16,9 @@ const Comments = (props) => {
           id: comments.length + 1,
           datePosted: new Date().toISOString().slice(0, 10),
           likes: 0,
-          isLiked: false, // New property to track whether the comment is liked
+          dislikes: 0,
+          isLiked: false,
+          isDisliked: false, // New property to track whether the comment is disliked
         },
       ];
       setComments(updatedComments);
@@ -30,7 +32,12 @@ const Comments = (props) => {
         return {
           ...comment,
           likes: comment.isLiked ? comment.likes - 1 : comment.likes + 1,
-          isLiked: !comment.isLiked, // Toggle isLiked property
+          isLiked: !comment.isLiked,
+          // Reset dislike when like is clicked
+          dislikes: comment.isLiked
+            ? comment.dislikes
+            : comment.dislikes - (comment.isDisliked ? 1 : 0),
+          isDisliked: false,
         };
       }
       return comment;
@@ -39,6 +46,27 @@ const Comments = (props) => {
     setComments(updatedComments);
   };
 
+  const handleDislike = (commentId) => {
+    const updatedComments = comments.map((comment) => {
+      if (comment.id === commentId) {
+        return {
+          ...comment,
+          dislikes: comment.isDisliked
+            ? comment.dislikes - 1
+            : comment.dislikes + 1,
+          isDisliked: !comment.isDisliked,
+          // Reset like when dislike is clicked
+          likes: comment.isDisliked
+            ? comment.likes
+            : comment.likes - (comment.isLiked ? 1 : 0),
+          isLiked: false,
+        };
+      }
+      return comment;
+    });
+
+    setComments(updatedComments);
+  };
   return (
     <div>
       <Form>
@@ -90,12 +118,20 @@ const Comments = (props) => {
                 <FaThumbsUp className="me-1" />
                 {comment.isLiked ? "Liked" : "Like"}
               </Button>
+              <Button
+                variant={comment.isDisliked ? "danger" : "outline-danger"}
+                onClick={() => handleDislike(comment.id)}
+              >
+                <FaThumbsDown className="me-1" />
+                {comment.isDisliked ? "Disliked" : "Dislike"}
+              </Button>
             </Card.Header>
             <Card.Body className="d-flex justify-content-start shadow">
               {comment.comment}
             </Card.Body>
             <Card.Footer>
               <p>Number of likes: {comment.likes}</p>
+              <p>Number of dislikes: {comment.dislikes}</p>
               <small className="d-flex justify-content-end font-italic">
                 {comment.datePosted}
               </small>

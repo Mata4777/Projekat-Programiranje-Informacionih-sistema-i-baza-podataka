@@ -18,6 +18,9 @@ const Login = () => {
     const enteredUsername = e.target.elements.username.value;
     const enteredPassword = e.target.elements.password.value;
 
+    console.log("Entered Username:", enteredUsername);
+    console.log("Entered Password:", enteredPassword);
+
     try {
       const formData = new FormData();
       formData.append("username", enteredUsername);
@@ -31,6 +34,7 @@ const Login = () => {
 
       if (response.ok) {
         const userData = await response.json();
+        console.log(userData);
         setUser(userData); // Set user data in the context
 
         if (userData.role === "ROLE_NOVINAR") {

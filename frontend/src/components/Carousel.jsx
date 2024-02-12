@@ -7,6 +7,11 @@ const CarouselSlide = ({ items }) => {
   const carouselHeight = "500px"; // Set the desired height for the Carousel
   const carouselWidth = "1000px";
 
+  // Render nothing if there are no items
+  if (items.length === 0) {
+    return null;
+  }
+
   return (
     <Carousel
       style={{ height: carouselHeight, width: carouselWidth }}
@@ -31,6 +36,7 @@ const CarouselSlide = ({ items }) => {
     </Carousel>
   );
 };
+
 CarouselSlide.propTypes = {
   items: PropTypes.arrayOf(
     PropTypes.shape({

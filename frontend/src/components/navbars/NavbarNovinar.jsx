@@ -5,13 +5,21 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const NavbarNovinar = () => {
-  const { userData } = useUser();
+  const { userData, setUser } = useUser();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    // Clear user data and navigate to "/"
+    setUser(null);
+    navigate("/");
+  };
+
   return (
     <div>
-      <Navbar fixed="top" expand="lg" className="bg-body-tertiary">
+      <Navbar fixed="top" expand="lg" variant="dark" className="bg-dark shadow">
         <Container fluid>
           <Navbar.Brand href="#">News</Navbar.Brand>
 
@@ -24,19 +32,29 @@ const NavbarNovinar = () => {
             ></Nav>
 
             <Form className="d-flex">
-              <DropdownButton
-                id="dropdown-basic-button"
-                title={userData ? userData.username : "User"}
-              >
-                <Dropdown.Item
-                  as={Link}
-                  to={`/Novinar/${userData.userId}/CreateNews`}
+              {userData ? (
+                <DropdownButton
+                  id="dropdown-basic-button"
+                  title={userData.username}
+                  drop="start" // Use "end" to align the menu to the right
                 >
-                  Add news
-                </Dropdown.Item>
-                <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                <Dropdown.Item href="#/action-3">Log out</Dropdown.Item>
-              </DropdownButton>
+                  <Dropdown.Item
+                    as={Link}
+                    to={`/Novinar/${userData.userId}/CreateNews`}
+                  >
+                    Add news
+                  </Dropdown.Item>
+                  <Dropdown.Item as={Link} to={`/Novinar/${userData.userId}`}>
+                    Home
+                  </Dropdown.Item>
+                  <Dropdown.Divider />
+                  <Dropdown.Item onClick={handleLogout}>Log out</Dropdown.Item>
+                </DropdownButton>
+              ) : (
+                <Nav.Link as={Link} to="/Login">
+                  Log in
+                </Nav.Link>
+              )}
             </Form>
           </Navbar.Collapse>
         </Container>

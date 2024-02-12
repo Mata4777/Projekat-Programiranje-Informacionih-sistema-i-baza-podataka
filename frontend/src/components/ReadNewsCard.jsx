@@ -1,15 +1,25 @@
 import { Card, Button } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import { FaThumbsUp } from "react-icons/fa";
+import { FaThumbsDown } from "react-icons/fa";
 
 const ReadNewsCard = () => {
   const initialLikeCount = parseInt(localStorage.getItem("likeCount")) || 0;
   const [likeCount, setLikeCount] = useState(initialLikeCount);
   const [isLiked, setIsLiked] = useState(false);
 
+  const initialDislikeCount =
+    parseInt(localStorage.getItem("dislikeCount")) || 0;
+  const [dislikeCount, setDislikeCount] = useState(initialDislikeCount);
+  const [isDisliked, setIsDisliked] = useState(false);
+
   const handleLikeClick = () => {
     if (!isLiked) {
       setLikeCount(likeCount + 1);
+      if (isDisliked) {
+        setDislikeCount(dislikeCount - 1);
+        setIsDisliked(false);
+      }
     } else {
       setLikeCount(likeCount - 1);
     }
@@ -19,6 +29,29 @@ const ReadNewsCard = () => {
   useEffect(() => {
     localStorage.setItem("likeCount", likeCount.toString());
   }, [likeCount]);
+
+  const handleDislikeClick = () => {
+    if (!isDisliked) {
+      setDislikeCount(dislikeCount + 1);
+
+      // If the like button is currently active, reset it
+      if (isLiked) {
+        setLikeCount(likeCount - 1);
+        setIsLiked(false);
+      }
+    } else {
+      setDislikeCount(dislikeCount - 1);
+    }
+    setIsDisliked(!isDisliked);
+  };
+
+  useEffect(() => {
+    localStorage.setItem("likeCount", likeCount.toString());
+  }, [likeCount]);
+
+  useEffect(() => {
+    localStorage.setItem("dislikeCount", dislikeCount.toString());
+  }, [dislikeCount]);
 
   return (
     <div>
@@ -88,10 +121,18 @@ const ReadNewsCard = () => {
 
           {/* Like Button with ThumbsUp icon */}
           <Button
-            variant={isLiked ? "success" : "primary"}
+            variant={isLiked ? "success" : "outline-success"}
             onClick={handleLikeClick}
           >
             <FaThumbsUp /> ({likeCount})
+          </Button>
+
+          {/* Dislike Button with ThumbsDown icon */}
+          <Button
+            variant={isDisliked ? "danger" : "outline-danger"}
+            onClick={handleDislikeClick}
+          >
+            <FaThumbsDown /> ({dislikeCount})
           </Button>
         </Card.Body>
       </Card>
