@@ -30,7 +30,7 @@ public class UserController {
         return ResponseEntity.ok("success");
     }
     @GetMapping("/changeRole")
-    public ResponseEntity<String> setRole(Integer userId,String role){
+    public ResponseEntity<String> setRole(@RequestParam Integer userId,@RequestParam String role){
         userService.setRole(userId,role);
         return ResponseEntity.ok("Success");
     }
