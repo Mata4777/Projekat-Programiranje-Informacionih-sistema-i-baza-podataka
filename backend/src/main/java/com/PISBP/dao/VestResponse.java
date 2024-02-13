@@ -4,6 +4,8 @@ import com.PISBP.entity.Vest;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 public class VestResponse {
@@ -25,6 +27,8 @@ public class VestResponse {
 
     String novinar;
 
+    List<KomentarData> komentari;
+
     public VestResponse(Vest vest){
         this.id=vest.getId();
         this.date=vest.getDate().toString();
@@ -35,5 +39,6 @@ public class VestResponse {
         this.naslov= vest.getNaslov();
         this.text= vest.getText();
         this.tag= vest.getTag();
+        this.komentari=vest.getKomentari().stream().map(KomentarData::new).toList();
     }
 }
