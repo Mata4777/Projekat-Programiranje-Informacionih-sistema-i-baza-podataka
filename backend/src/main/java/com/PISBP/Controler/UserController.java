@@ -1,9 +1,7 @@
 package com.PISBP.Controler;
 
-import com.PISBP.dao.NewUser.NewUser;
-import com.PISBP.dao.NewVest;
+import com.PISBP.dao.NewUser;
 import com.PISBP.dao.UserData;
-import com.PISBP.entity.User;
 import com.PISBP.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +20,7 @@ public class UserController {
 
     @GetMapping("/all")
     public ResponseEntity<List<UserData>> getUsers(){
-        List<UserData> users =  userService.getAll();
+        List<UserData> users = userService.getAll();
         return ResponseEntity.ok(users);
     }
 
@@ -30,5 +28,10 @@ public class UserController {
     public ResponseEntity<String> addUser(@RequestBody NewUser user){
         userService.addUser(user);
         return ResponseEntity.ok("success");
+    }
+    @GetMapping("/changeRole")
+    public ResponseEntity<String> setRole(Integer userId,String role){
+        userService.setRole(userId,role);
+        return ResponseEntity.ok("Success");
     }
 }

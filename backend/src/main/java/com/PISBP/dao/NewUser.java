@@ -1,4 +1,4 @@
-package com.PISBP.dao.NewUser;
+package com.PISBP.dao;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,6 +1,6 @@
 package com.PISBP.service;
 
-import com.PISBP.dao.NewUser.NewUser;
+import com.PISBP.dao.NewUser;
 import com.PISBP.dao.UserData;
 import com.PISBP.entity.Rubrika;
 import com.PISBP.entity.User;
@@ -8,6 +8,7 @@ import com.PISBP.repository.RubrikaRepository;
 import com.PISBP.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,7 +28,9 @@ public class UserService {
     }
 
     public List<UserData> getAll() {
-        return userRepository.findAll().stream().map(UserData::new).toList();
+        List<UserData> users= new ArrayList<>(userRepository.findAll().stream().map(UserData::new).toList());
+        users.removeIf(userData -> userData.username.equals("glavni"));
+        return users;
     }
 
     public void addUser(NewUser user) {
@@ -44,5 +47,11 @@ public class UserService {
             }
         }
         userRepository.save(newUser);
+    }
+
+    public void setRole(Integer userId, String role) {
+        User user = userRepository.getById(userId);
+        user.setRoles(role);
+        userRepository.save(user);
     }
 }
