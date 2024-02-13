@@ -4,10 +4,12 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { useNavigate } from "react-router-dom";
 
 const NavbarArchiveSearch = ({ news, setFilteredNews }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
+  const navigate = useNavigate();
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
@@ -28,26 +30,44 @@ const NavbarArchiveSearch = ({ news, setFilteredNews }) => {
 
     // Filter news based on the search query and date filter
     const filteredNews = news.filter((vest) => {
-      const isTitleMatch = vest.naslov;
+      const isTitleMatch = vest.naslov
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase());
       const isTagMatch = vest.tag
         .toLowerCase()
         .includes(searchQuery.toLowerCase());
-      console.log("VEST DATE" + vest.datum);
-
       const isDateMatch = !selectedDate || vest.datum === selectedDate;
 
-      return isTitleMatch && isDateMatch && isTagMatch;
+      if (selectedDate) {
+        // Clear the search query when searching by date
+        setSearchQuery("");
+      }
+
+      // Apply the appropriate filtering logic based on the user's search type
+      if (isTitleMatch && isDateMatch && isTagMatch) {
+        return true; // All conditions are met
+      } else if (isDateMatch && isTagMatch) {
+        return true; // Searching by date
+      } else if (isDateMatch && isTitleMatch) {
+        return true; // Searching by title
+      } else if (isTitleMatch && isTagMatch) {
+        return true; // Searching by tag
+      } else {
+        return false;
+      }
     });
 
     // Update the filtered news state
     setFilteredNews(filteredNews);
   };
+
   const handleAllButtonClick = () => {
     // Reset the filtered news to the original list of all news
     setFilteredNews(news);
     // Clear the search query and selected date
     setSearchQuery("");
     setSelectedDate(null);
+    navigate("/Archive");
   };
 
   return (
@@ -62,11 +82,14 @@ const NavbarArchiveSearch = ({ news, setFilteredNews }) => {
             style={{ maxHeight: "100px" }}
             navbarScroll
           ></Nav>
-          <Link to={`/Archive`} className="ms-auto d-flex me-3">
-            <Button variant="outline-success" onClick={handleAllButtonClick}>
-              All
-            </Button>
-          </Link>
+
+          <Button
+            className="ms-auto d-flex me-3"
+            variant="outline-success"
+            onClick={handleAllButtonClick}
+          >
+            All
+          </Button>
 
           <Form className="d-flex" onSubmit={handleSearchSubmit}>
             <Form.Control

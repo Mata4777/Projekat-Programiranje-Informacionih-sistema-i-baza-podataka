@@ -1,11 +1,12 @@
 // Login.js
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
 import { useUser } from "../components/UserHooks";
 import "./Login.css";
+import { Row, Col } from "react-bootstrap";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -58,6 +59,14 @@ const Login = () => {
   return (
     <div>
       <Container className="logInContainer">
+        <Row>
+          <Col md={{ span: 12, offset: 5 }}>
+            <Button as={Link} to={"/"} variant="outline-danger">
+              X
+            </Button>
+          </Col>
+        </Row>
+
         <h2 className="loginTitle">Log In</h2>
         {error && <div className="error">{error}</div>}
         <Form onSubmit={handleLogin}>
@@ -79,7 +88,7 @@ const Login = () => {
             />
           </Form.Group>
           <Button variant="primary" type="submit">
-            Submit
+            Log in
           </Button>
         </Form>
       </Container>

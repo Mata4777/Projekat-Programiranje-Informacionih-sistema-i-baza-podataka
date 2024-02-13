@@ -3,34 +3,66 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { Container, Dropdown, FormCheck } from "react-bootstrap";
 import NavbarGlavniUrednik from "../components/navbars/NavbarGlavniUrednik";
+import axios from "axios";
 
 const Register = () => {
   const [formData, setFormData] = useState({
-    firstname: "",
-    surname: "",
     username: "",
     password: "",
-    isUrednik: false,
+    role: false,
+    rubrike: [],
   });
+  const [selectedCategories, setSelectedCategories] = useState([]);
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
 
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: type === "checkbox" ? checked : value,
-    }));
+    if (name === "role") {
+      setFormData((prevData) => ({
+        ...prevData,
+        role: checked, // set to true or false
+      }));
+    } else {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: type === "checkbox" ? checked : value,
+      }));
+    }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Add validation logic here if needed
+    // Determine the role based on the switch
+    const role = formData.role ? "ROLE_UREDNIK" : "ROLE_NOVINAR";
 
-    // Log the form data
-    console.log("Submitted data:", formData);
+    // Combine the form data with the selected categories
+    const userData = {
+      ...formData,
+      role,
+      rubrike: selectedCategories,
+    };
+    console.log(JSON.stringify(userData));
+
+    try {
+      // Send a POST request to your backend with the user data
+      const response = await axios.post(
+        "http://localhost:8080/api/user/new",
+        userData
+      );
+      setFormData({
+        username: "",
+        password: "",
+        role: false,
+        rubrike: [],
+      });
+
+      // Optionally, you can handle the response here (e.g., redirect to a different page)
+      console.log("Registration successful:", response.data);
+    } catch (error) {
+      console.error("Error during registration:", error);
+    }
   };
-  const [selectedCategories, setSelectedCategories] = useState([]);
 
   const handleCategoryToggle = (category) => {
     const updatedCategories = selectedCategories.includes(category)
@@ -49,30 +81,6 @@ const Register = () => {
       <Container className="p-4 rounded shadow mt-5" style={{ width: "500px" }}>
         <h2>Register</h2>
         <Form onSubmit={handleSubmit}>
-          <Form.Group controlId="firstname">
-            <Form.Label>Firstname</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Enter your firstname"
-              name="firstname"
-              value={formData.firstname}
-              onChange={handleInputChange}
-              required
-            />
-          </Form.Group>
-
-          <Form.Group controlId="surname">
-            <Form.Label>Surname</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Enter your surname"
-              name="surname"
-              value={formData.surname}
-              onChange={handleInputChange}
-              required
-            />
-          </Form.Group>
-
           <Form.Group controlId="username">
             <Form.Label>Username</Form.Label>
             <Form.Control
@@ -98,11 +106,16 @@ const Register = () => {
           </Form.Group>
 
           <Form.Group className="mx-auto m-3" controlId="isUrednik">
-            <Form.Check // prettier-ignore
+            <Form.Check
               type="switch"
               id="custom-switch"
               label="Da li je urednik?"
               style={{ fontSize: "1.5rem", color: "red" }}
+              onChange={(e) =>
+                handleInputChange({
+                  target: { name: "role", checked: e.target.checked },
+                })
+              }
             />
           </Form.Group>
           <Form.Group className="mx-auto m-3">

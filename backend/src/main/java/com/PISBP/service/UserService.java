@@ -39,7 +39,8 @@ public class UserService {
         newUser.setPassword(user.getPassword());
         newUser.setActive(true);
         newUser.setRoles(user.getRole());
-        List<String> rubrike = List.of(user.getRubrike().split(", "));
+        List<String> rubrike = user.getRubrike();
+        newUser.setRubrike(new ArrayList<>());
         for(String rubrika:rubrike){
             Optional<Rubrika> rubrika1 = rubrikaRepository.findByNaziv(rubrika);
             if (rubrika1.isPresent()) {
