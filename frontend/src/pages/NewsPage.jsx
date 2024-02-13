@@ -1,43 +1,43 @@
 import NavbarHome from "../components/navbars/NavbarHome";
-import Comments from "../components/Comments";
+//import Comments from "../components/Comments";
 import ReadNewsCard from "../components/ReadNewsCard";
-//import { useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const NewsPage = () => {
-  //const { id } = useParams();
-  // Dummy data for previous comments
-  const dummyComments = [
-    {
-      id: 1,
-      username: "User1",
-      comment: "Great news!",
-      datePosted: "2022-01-01",
-      likes: 11,
-      dislikes: 111,
-    },
-    {
-      id: 2,
-      username: "User2",
-      comment: "Interesting article.",
-      datePosted: "2022-01-02",
-      likes: 22,
-      dislikes: 222,
-    },
-    {
-      id: 3,
-      username: "User3",
-      comment: "Looking forward to more updates.",
-      datePosted: "2022-01-03",
-      likes: 33,
-      dislikes: 333,
-    },
-  ];
+  const { id } = useParams();
+  const [news, setNews] = useState(null);
+
+  useEffect(() => {
+    const loadNews = async () => {
+      try {
+        console.log("ID " + id);
+        const result = await axios.get(
+          `http://localhost:8080/api/vest/one/${id}`
+        );
+        setNews(result.data);
+      } catch (error) {
+        console.error("Error loading news:", error);
+      }
+    };
+
+    loadNews();
+  }, [id]);
+
+  console.log("NEWS u NEWSPAGE " + JSON.stringify(news));
 
   return (
     <div>
       <NavbarHome className="mb-4" />
-      <ReadNewsCard />
-      <Comments comments={dummyComments} />
+      {news ? (
+        <>
+          <ReadNewsCard {...news} />
+          {/* <Comments comments={news.Comments} /> */}
+        </>
+      ) : (
+        <p>Loading...</p>
+      )}
     </div>
   );
 };

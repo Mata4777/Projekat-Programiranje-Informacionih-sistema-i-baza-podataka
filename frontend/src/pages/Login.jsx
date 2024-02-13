@@ -34,7 +34,7 @@ const Login = () => {
 
       if (response.ok) {
         const userData = await response.json();
-        console.log(userData);
+        console.log("USER DATA::   " + JSON.stringify(userData));
         setUser(userData); // Set user data in the context
 
         if (userData.role === "ROLE_NOVINAR") {

@@ -28,17 +28,26 @@ const NavbarArchiveSearch = ({ news, setFilteredNews }) => {
 
     // Filter news based on the search query and date filter
     const filteredNews = news.filter((vest) => {
-      const isTitleMatch = vest.naslov
+      const isTitleMatch = vest.naslov;
+      const isTagMatch = vest.tag
         .toLowerCase()
         .includes(searchQuery.toLowerCase());
+      console.log("VEST DATE" + vest.datum);
 
-      const isDateMatch = !selectedDate || vest.date === selectedDate;
+      const isDateMatch = !selectedDate || vest.datum === selectedDate;
 
-      return isTitleMatch && isDateMatch;
+      return isTitleMatch && isDateMatch && isTagMatch;
     });
 
     // Update the filtered news state
     setFilteredNews(filteredNews);
+  };
+  const handleAllButtonClick = () => {
+    // Reset the filtered news to the original list of all news
+    setFilteredNews(news);
+    // Clear the search query and selected date
+    setSearchQuery("");
+    setSelectedDate(null);
   };
 
   return (
@@ -54,7 +63,9 @@ const NavbarArchiveSearch = ({ news, setFilteredNews }) => {
             navbarScroll
           ></Nav>
           <Link to={`/Archive`} className="ms-auto d-flex me-3">
-            <Button variant="outline-success">All</Button>
+            <Button variant="outline-success" onClick={handleAllButtonClick}>
+              All
+            </Button>
           </Link>
 
           <Form className="d-flex" onSubmit={handleSearchSubmit}>
