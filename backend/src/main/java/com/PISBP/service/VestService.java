@@ -2,6 +2,7 @@ package com.PISBP.service;
 
 import com.PISBP.dao.NewVest;
 import com.PISBP.dao.VestBaseInfo;
+import com.PISBP.dao.VestResponse;
 import com.PISBP.entity.Rubrika;
 import com.PISBP.entity.User;
 import com.PISBP.entity.Vest;
@@ -63,8 +64,12 @@ public class VestService {
         return res;
     }
 
-    public Vest getById(Integer vestId) {
+    public VestResponse getById(Integer vestId) {
         Optional<Vest> ovest=vestReposotory.findById(vestId);
-        return ovest.orElse(null);
+        if (ovest.isPresent()) {
+            VestResponse vest = new VestResponse(ovest.get());
+            return vest;
+        }
+        return null;
     }
 }
