@@ -48,7 +48,17 @@ public class VestController {
     @PostMapping("/new")
     public ResponseEntity<String> addVest(@RequestBody NewVest vest){
         vestService.saveVest(vest);
-        return ResponseEntity.ok().body("success");
+        return ResponseEntity.ok().body("Success");
+    }
+    @GetMapping("/like")
+    public ResponseEntity<String> like(@RequestParam Integer id){
+        vestService.like(id);
+        return ResponseEntity.ok("Success");
+    }
+    @GetMapping("/dislike")
+    public ResponseEntity<String> dislike(@RequestParam Integer id){
+        vestService.dislike(id);
+        return ResponseEntity.ok("Success");
     }
 
 }

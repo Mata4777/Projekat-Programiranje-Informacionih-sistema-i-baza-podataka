@@ -3,6 +3,7 @@ package com.PISBP.service;
 import com.PISBP.dao.NewVest;
 import com.PISBP.dao.VestBaseInfo;
 import com.PISBP.dao.VestResponse;
+import com.PISBP.entity.Komentar;
 import com.PISBP.entity.Rubrika;
 import com.PISBP.entity.User;
 import com.PISBP.entity.Vest;
@@ -71,5 +72,23 @@ public class VestService {
             return vest;
         }
         return null;
+    }
+
+    public void like(Integer id) {
+        Optional<Vest> opvest=vestReposotory.findById(id);
+        if (opvest.isPresent()){
+            Vest vest= opvest.get();
+            vest.setBrojLajkova(vest.getBrojLajkova()+1);
+            vestReposotory.save(vest);
+        }
+    }
+
+    public void dislike(Integer id) {
+        Optional<Vest> opvest=vestReposotory.findById(id);
+        if (opvest.isPresent()){
+            Vest vest= opvest.get();
+            vest.setBrojDisajkova(vest.getBrojDisajkova()+1);
+            vestReposotory.save(vest);
+        }
     }
 }
