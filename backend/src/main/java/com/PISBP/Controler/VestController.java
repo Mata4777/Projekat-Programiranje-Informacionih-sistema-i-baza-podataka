@@ -7,7 +7,7 @@ import com.PISBP.service.VestService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
+
 import java.util.List;
 
 @RestController
@@ -38,14 +38,14 @@ public class VestController {
         return ResponseEntity.ok(vesti);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/one/{id}")
     public ResponseEntity<Vest> getOneVest(@PathVariable(name = "id") Integer id){
         Vest vest= vestService.getById(id);
         return ResponseEntity.ok(vest);
     }
 
     @PostMapping("/new")
-    public ResponseEntity<String> addVest(@RequestBody NewVest vest, Principal principal){
+    public ResponseEntity<String> addVest(@RequestBody NewVest vest){
         vestService.saveVest(vest);
         return ResponseEntity.ok().body("success");
     }

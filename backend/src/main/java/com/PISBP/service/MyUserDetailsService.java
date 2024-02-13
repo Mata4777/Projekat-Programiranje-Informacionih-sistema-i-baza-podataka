@@ -16,7 +16,6 @@ import java.util.Optional;
 
 @Service
 public class MyUserDetailsService implements UserDetailsService {
-    BCryptPasswordEncoder bCryptPasswordEncoder=new BCryptPasswordEncoder();
 
     @Autowired
     UserRepository userRepository;
@@ -30,19 +29,5 @@ public class MyUserDetailsService implements UserDetailsService {
         Optional<User> user = userRepository.findByUserName(username);
         user.orElseThrow(()-> new UsernameNotFoundException("Not found: "+username));
         return user.map(MyUserDetails::new).get();
-    }
-
-    public ResponseEntity<String> addUser(String userName, String password) {
-        if (userName==""||password.length()<5){
-            return ResponseEntity.ok().body("Bad username or password");
-        }
-        Optional<User> user=userRepository.findByUserName(userName);
-
-        if(user.isEmpty()) {
-            this.userRepository.save(new User(userName, bCryptPasswordEncoder.encode(password), true, "ROLE_STAFF"));
-            return ResponseEntity.ok().body("You successfully registered");
-        }else{
-            return ResponseEntity.ok().body("Username already taken");
-        }
     }
 }
