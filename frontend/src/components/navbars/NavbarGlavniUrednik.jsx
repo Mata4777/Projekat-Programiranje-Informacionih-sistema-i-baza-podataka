@@ -46,6 +46,12 @@ const NavbarGlavniUrednik = () => {
                 <Dropdown.Item as={Link} to={`/GUrednik/${userData.userId}`}>
                   Home
                 </Dropdown.Item>
+                <Dropdown.Item
+                  as={Link}
+                  to={`/GUrednik/${userData.userId}/allUsers`}
+                >
+                  All users
+                </Dropdown.Item>
                 <Dropdown.Divider />
                 <Dropdown.Item onClick={handleLogout}>Log out</Dropdown.Item>
               </DropdownButton>

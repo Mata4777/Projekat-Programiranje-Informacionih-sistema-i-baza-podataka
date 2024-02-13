@@ -1,5 +1,5 @@
 import { useUser } from "../components/UserHooks";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import Form from "react-bootstrap/Form";
@@ -8,17 +8,48 @@ import Dropdown from "react-bootstrap/Dropdown";
 import FormCheck from "react-bootstrap/FormCheck";
 import NavbarNovinar from "../components/navbars/NavBarNovinar";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
-const CreateNewsPage = () => {
+const EditNews = () => {
+  const { id } = useParams();
   const { userData } = useUser();
+  const [news, setNews] = useState(null);
+
+  useEffect(() => {
+    const loadNews = async () => {
+      try {
+        console.log("ID " + id);
+        const result = await axios.get(
+          `http://localhost:8080/api/vest/one/${id}`
+        );
+        setNews(result.data);
+      } catch (error) {
+        console.error("Error loading news:", error);
+      }
+    };
+
+    loadNews();
+  }, [id]);
+
   const [newsData, setNewsData] = useState({
     naslov: "",
     tag: "",
     text: "",
     rubrikaName: "",
-    username: userData.username, // Use a single category instead of an array
+    username: userData.username,
   });
-  console.log("USER DATA " + userData.username);
+
+  useEffect(() => {
+    if (news) {
+      setNewsData({
+        naslov: news.naslov,
+        tag: news.tag,
+        text: news.text,
+        rubrikaName: news.rubrikaName,
+        username: userData.username,
+      });
+    }
+  }, [news, userData.username]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -44,11 +75,10 @@ const CreateNewsPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Submited");
 
     try {
-      const response = await axios.post(
-        "http://localhost:8080/api/vest/new",
+      const response = await axios.put(
+        `http://localhost:8080/api/vest/update/${id}`,
         newsData,
         {
           headers: {
@@ -61,30 +91,23 @@ const CreateNewsPage = () => {
       console.log(response); // Check the response in the console
 
       if (response.status === 200) {
-        setNewsData({
-          naslov: "",
-          tag: "",
-          text: "",
-          rubrikaName: "",
-          username: userData.username,
-        });
-        console.log("News created successfully");
         // Optionally, you can navigate to a success page or perform other actions
+        console.log("News updated successfully");
+        // Update the news state to reflect the changes on the page
+        setNews(response.data);
       }
     } catch (error) {
-      console.error("Error during news creation:", error);
+      console.error("Error during news update:", error);
     }
   };
 
-  console.log(newsData);
-
-  const categoryOptions = userData.rubrike;
+  const categoryOptions = userData.rubrike || [];
 
   return (
     <div>
       <NavbarNovinar />
       <div className="mt-5" style={{ width: "600px" }}>
-        <h1 className="mb-5">Create new news</h1>
+        <h1 className="mb-5">Edit news</h1>
         <Form onSubmit={handleSubmit}>
           <Dropdown className="mb-2">
             <Dropdown.Toggle variant="secondary" id="categoriesDropdown">
@@ -142,10 +165,8 @@ const CreateNewsPage = () => {
           </Button>
         </Form>
       </div>
-
-      {/* Submit Button */}
     </div>
   );
 };
 
-export default CreateNewsPage;
+export default EditNews;

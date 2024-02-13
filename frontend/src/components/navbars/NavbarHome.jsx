@@ -9,7 +9,9 @@ const NavbarHome = () => {
   return (
     <Navbar fixed="top" expand="lg" variant="dark" className="bg-dark shadow">
       <Container fluid>
-        <Navbar.Brand href="#">News</Navbar.Brand>
+        <Navbar.Brand as={Link} to={"/"}>
+          News
+        </Navbar.Brand>
 
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">

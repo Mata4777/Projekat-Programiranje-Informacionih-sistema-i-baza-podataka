@@ -13,6 +13,8 @@ import Register from "./pages/Register";
 import Archive from "./pages/Archive";
 import NewsNovinar from "./pages/NewsNovinar";
 import HomeGlavniUrednik from "./pages/HomeGlavniUrednik";
+import AllUsers from "./pages/AllUsers";
+import EditNews from "./pages/EditNews";
 
 const App = () => {
   return (
@@ -25,8 +27,18 @@ const App = () => {
           <Route exact path="/Urednik/:id" element={<HomeUrednik />}></Route>
           <Route
             exact
+            path="/:id/NewsNovinar/Edit/:id"
+            element={<EditNews />}
+          ></Route>
+          <Route
+            exact
             path="/GUrednik/:id"
             element={<HomeGlavniUrednik />}
+          ></Route>
+          <Route
+            exact
+            path="/GUrednik/:id/allUsers"
+            element={<AllUsers />}
           ></Route>
           <Route exact path="/News/:id" element={<NewsPage />}></Route>
           <Route
@@ -42,7 +54,7 @@ const App = () => {
           <Route exact path="/Archive" element={<Archive />}></Route>
           <Route
             exact
-            path="/NewsNovinar/:id"
+            path="/:id/NewsNovinar/:id"
             element={<NewsNovinar />}
           ></Route>
         </Routes>

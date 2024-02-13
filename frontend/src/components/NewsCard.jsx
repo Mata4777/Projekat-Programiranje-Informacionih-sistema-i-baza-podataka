@@ -11,7 +11,7 @@ const NewsCard = (props) => {
           <Row>
             <Col>
               <small className="d-flex justify-content-start font-italic">
-                {props.tag}
+                #{props.tag}
               </small>
             </Col>
             <Col>
@@ -41,12 +41,11 @@ const NewsCard = (props) => {
   );
 };
 NewsCard.propTypes = {
-  id: PropTypes.string.isRequired,
   naslov: PropTypes.string.isRequired,
   tag: PropTypes.string.isRequired,
   datum: PropTypes.string.isRequired,
-  brojLajkova: PropTypes.string.isRequired,
-  brojDislajkova: PropTypes.string.isRequired,
+  brojLajkova: PropTypes.number.isRequired,
+  brojDislajkova: PropTypes.number.isRequired,
 };
 
 export default NewsCard;
