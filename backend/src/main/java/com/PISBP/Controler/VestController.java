@@ -32,11 +32,37 @@ public class VestController {
         List<VestBaseInfo> vesti= vestService.getAll();
         return ResponseEntity.ok(vesti);
     }
+    @GetMapping("/published")
+    public ResponseEntity<List<VestBaseInfo>> getPublished(){
+        List<VestBaseInfo> vesti= vestService.getByState("published");
+        return ResponseEntity.ok(vesti);
+    }
+
+    @GetMapping("/forApprove")
+    public ResponseEntity<List<VestBaseInfo>> forApprove(@RequestParam Integer userId){
+        List<VestBaseInfo> vesti= vestService.getForApprove(userId);
+        return ResponseEntity.ok(vesti);
+    }
 
     @GetMapping("/my")
     public ResponseEntity<List<VestBaseInfo>> getMy(@RequestParam Integer userId){
-        List<VestBaseInfo> vesti= vestService.getByUserId(userId);
+        List<VestBaseInfo> vesti= vestService.getEditableByUserId(userId);
         return ResponseEntity.ok(vesti);
+    }
+    @GetMapping("/toApproving")
+    public ResponseEntity<String> toApproving(@RequestParam Integer vestId){
+        vestService.changeState(vestId,"approving");
+        return ResponseEntity.ok("Success");
+    }
+    @GetMapping("/toDraft")
+    public ResponseEntity<String> toDraft(@RequestParam Integer vestId){
+        vestService.changeState(vestId,"draft");
+        return ResponseEntity.ok("Success");
+    }
+    @GetMapping("/toPublished")
+    public ResponseEntity<String> toPublished(@RequestParam Integer vestId){
+        vestService.changeState(vestId,"published");
+        return ResponseEntity.ok("Success");
     }
 
     @GetMapping("/one/{id}")

@@ -15,4 +15,9 @@ public interface VestReposotory extends JpaRepository<Vest,Integer> {
     List<Vest> findTodays();
 
     List<Vest> findByNovinarId(Integer novinarId);
+    List<Vest> findByState(String state);
+    List<Vest> findByNovinarIdAndStateIn(Integer novinarId, List<String> states);
+    List<Vest> findByStateAndRubrikaIdIn(String state, List<Integer> rubrikaIds);
+
+
 }

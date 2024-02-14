@@ -11,9 +11,7 @@ import com.PISBP.repository.UserRepository;
 import com.PISBP.repository.VestReposotory;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class VestService {
@@ -58,8 +56,8 @@ public class VestService {
         return res;
     }
 
-    public List<VestBaseInfo> getByUserId(Integer userId) {
-        List<Vest> vesti= vestReposotory.findByNovinarId(userId);
+    public List<VestBaseInfo> getEditableByUserId(Integer userId) {
+        List<Vest> vesti= vestReposotory.findByNovinarIdAndStateIn(userId, List.of("draft","approving"));
         List<VestBaseInfo> res = vesti.stream().map(VestBaseInfo::new).toList();
         return res;
     }
@@ -72,6 +70,7 @@ public class VestService {
         }
         return null;
     }
+
     public void delete(Integer id){
         Optional<Vest> oVest=vestReposotory.findById(id);
         if (oVest.isPresent()){
@@ -95,5 +94,31 @@ public class VestService {
             vest.setBrojDisajkova(vest.getBrojDisajkova()+1);
             vestReposotory.save(vest);
         }
+    }
+
+    public boolean changeState(Integer vestId,String state){
+        Optional<Vest> ovest = vestReposotory.findById(vestId);
+        if (ovest.isPresent()){
+            Vest vest=ovest.get();
+            vest.setState(state);
+            vestReposotory.save(vest);
+            return true;
+        }
+        return false;
+    }
+
+    public List<VestBaseInfo> getByState(String state) {
+        List<Vest> vesti= vestReposotory.findByState(state);
+        List<VestBaseInfo> res = vesti.stream().map(VestBaseInfo::new).toList();
+        return res;
+    }
+
+    public List<VestBaseInfo> getForApprove(Integer userId) {
+        Optional<User> user=userRepository.findById(userId);
+        if (user.isPresent()){
+            List<Integer> rubrike = user.get().getRubrike().stream().map(Rubrika::getId).toList();
+            return vestReposotory.findByStateAndRubrikaIdIn("approving",rubrike).stream().map(VestBaseInfo::new).toList();
+        }
+        return Collections.emptyList();
     }
 }
