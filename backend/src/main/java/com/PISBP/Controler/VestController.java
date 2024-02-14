@@ -55,6 +55,7 @@ public class VestController {
         List<VestBaseInfo> vesti= vestService.getEditableByUserId(userId);
         return ResponseEntity.ok(vesti);
     }
+
     @GetMapping("/toApproving")
     public ResponseEntity<String> toApproving(@RequestParam Integer vestId){
         vestService.changeState(vestId,"approving");

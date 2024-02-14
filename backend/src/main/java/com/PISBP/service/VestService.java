@@ -51,7 +51,7 @@ public class VestService {
     }
 
     public List<VestBaseInfo> getTodays() {
-        List<Vest> vesti= vestReposotory.findTodays();
+        List<Vest> vesti= vestReposotory.findTodaysPublished();
         List<VestBaseInfo> res = vesti.stream().map(VestBaseInfo::new).toList();
         return res;
     }
