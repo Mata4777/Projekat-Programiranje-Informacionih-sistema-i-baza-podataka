@@ -1,9 +1,9 @@
 import { Card, Button } from "react-bootstrap";
-import { useState, useEffect } from "react";
-import { FaThumbsUp } from "react-icons/fa";
-import { FaThumbsDown } from "react-icons/fa";
+import { useState } from "react";
+import { FaThumbsUp, FaThumbsDown } from "react-icons/fa";
 import PropTypes from "prop-types";
 import { Row, Col } from "react-bootstrap";
+import axios from "axios";
 
 const ReadNewsCard = (props) => {
   const [likeCount, setLikeCount] = useState(props.brojLajkova);
@@ -11,47 +11,44 @@ const ReadNewsCard = (props) => {
 
   const [dislikeCount, setDislikeCount] = useState(props.brojDisajkova);
   const [isDisliked, setIsDisliked] = useState(false);
-  console.log("PROPS " + JSON.stringify(props));
 
-  const handleLikeClick = () => {
-    if (!isLiked) {
-      setLikeCount(likeCount + 1);
-      if (isDisliked) {
-        setDislikeCount(dislikeCount - 1);
-        setIsDisliked(false);
+  const handleLikeClick = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/api/vest/like?id=${props.id}`
+      );
+      if (response.data === "Success") {
+        setLikeCount((likeCount) => (isLiked ? likeCount - 1 : likeCount + 1));
+        setIsLiked(!isLiked);
+        if (isDisliked) {
+          setDislikeCount(dislikeCount - 1);
+          setIsDisliked(false);
+        }
       }
-    } else {
-      setLikeCount(likeCount - 1);
+    } catch (error) {
+      console.error("Error liking news:", error);
     }
-    setIsLiked(!isLiked);
   };
 
-  useEffect(() => {
-    localStorage.setItem("likeCount", likeCount.toString());
-  }, [likeCount]);
-
-  const handleDislikeClick = () => {
-    if (!isDisliked) {
-      setDislikeCount(dislikeCount + 1);
-
-      // If the like button is currently active, reset it
-      if (isLiked) {
-        setLikeCount(likeCount - 1);
-        setIsLiked(false);
+  const handleDislikeClick = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/api/vest/dislike?id=${props.id}`
+      );
+      if (response.data === "Success") {
+        setDislikeCount((dislikeCount) =>
+          isDisliked ? dislikeCount - 1 : dislikeCount + 1
+        );
+        setIsDisliked(!isDisliked);
+        if (isLiked) {
+          setLikeCount(likeCount - 1);
+          setIsLiked(false);
+        }
       }
-    } else {
-      setDislikeCount(dislikeCount - 1);
+    } catch (error) {
+      console.error("Error disliking news:", error);
     }
-    setIsDisliked(!isDisliked);
   };
-
-  // useEffect(() => {
-  //   localStorage.setItem("likeCount", likeCount.toString());
-  // }, [likeCount]);
-
-  // useEffect(() => {
-  //   localStorage.setItem("dislikeCount", dislikeCount.toString());
-  // }, [dislikeCount]);
 
   return (
     <div>
@@ -94,6 +91,7 @@ const ReadNewsCard = (props) => {
 };
 
 ReadNewsCard.propTypes = {
+  id: PropTypes.number.isRequired,
   brojLajkova: PropTypes.number.isRequired,
   brojDisajkova: PropTypes.number.isRequired,
   naslov: PropTypes.string.isRequired,

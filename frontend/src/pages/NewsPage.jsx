@@ -1,9 +1,10 @@
 import NavbarHome from "../components/navbars/NavbarHome";
-//import Comments from "../components/Comments";
+import Comments from "../components/Comments";
 import ReadNewsCard from "../components/ReadNewsCard";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Container } from "react-bootstrap";
 
 const NewsPage = () => {
   const { id } = useParams();
@@ -33,7 +34,9 @@ const NewsPage = () => {
       {news ? (
         <>
           <ReadNewsCard {...news} />
-          {/* <Comments comments={news.Comments} /> */}
+          <Container className="shadow-lg rounded p-3">
+            <Comments {...news} />
+          </Container>
         </>
       ) : (
         <p>Loading...</p>

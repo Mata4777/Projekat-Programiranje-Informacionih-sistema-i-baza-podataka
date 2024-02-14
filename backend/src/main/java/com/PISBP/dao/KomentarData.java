@@ -8,6 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class KomentarData {
+    Integer id;
     String username;
 
     String text;
@@ -16,6 +17,7 @@ public class KomentarData {
 
     Integer brojDislajkova;
     public KomentarData(Komentar komentar){
+        this.id=komentar.getId();
         this.brojDislajkova=komentar.getBrojDislajkova();
         this.brojLajkova=komentar.getBrojLajkova();
         this.username=komentar.getUsername();
