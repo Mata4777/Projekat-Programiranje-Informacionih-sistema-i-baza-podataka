@@ -44,6 +44,11 @@ public class VestController {
         VestResponse vest= vestService.getById(id);
         return ResponseEntity.ok(vest);
     }
+    @GetMapping("/delete/{id}")
+    public ResponseEntity<String> deleteOneVest(@PathVariable(name = "id") Integer id){
+        vestService.delete(id);
+        return ResponseEntity.ok("Success");
+    }
 
     @PostMapping("/new")
     public ResponseEntity<String> addVest(@RequestBody NewVest vest){

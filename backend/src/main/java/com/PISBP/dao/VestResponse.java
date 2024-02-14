@@ -27,6 +27,8 @@ public class VestResponse {
 
     String novinar;
 
+    String state;
+
     List<KomentarData> komentari;
 
     public VestResponse(Vest vest){
@@ -39,6 +41,7 @@ public class VestResponse {
         this.naslov= vest.getNaslov();
         this.text= vest.getText();
         this.tag= vest.getTag();
+        this.state=vest.getState();
         this.komentari=vest.getKomentari().stream().map(KomentarData::new).toList();
     }
 }

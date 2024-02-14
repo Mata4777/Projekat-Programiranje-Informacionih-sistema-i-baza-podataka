@@ -3,7 +3,6 @@ package com.PISBP.service;
 import com.PISBP.dao.NewVest;
 import com.PISBP.dao.VestBaseInfo;
 import com.PISBP.dao.VestResponse;
-import com.PISBP.entity.Komentar;
 import com.PISBP.entity.Rubrika;
 import com.PISBP.entity.User;
 import com.PISBP.entity.Vest;
@@ -41,7 +40,7 @@ public class VestService {
                 .tag(vest.getTag())
                 .rubrika(rubrika.orElse(null))
                 .novinar(user.get())
-                .state("new").build();
+                .state("draft").build();
 
         vestReposotory.save(novaVest);
         return true;
@@ -72,6 +71,12 @@ public class VestService {
             return vest;
         }
         return null;
+    }
+    public void delete(Integer id){
+        Optional<Vest> oVest=vestReposotory.findById(id);
+        if (oVest.isPresent()){
+            vestReposotory.delete(oVest.get());
+        }
     }
 
     public void like(Integer id) {
