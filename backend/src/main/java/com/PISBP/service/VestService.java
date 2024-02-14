@@ -121,4 +121,18 @@ public class VestService {
         }
         return Collections.emptyList();
     }
+
+    public void updateVest(NewVest vest, Integer id) {
+        Optional<Vest> oVest = vestReposotory.findById(id);
+        if(oVest.isPresent()){
+            Vest vest1 = oVest.get();
+            vest1.setNaslov(vest.getNaslov());
+            vest1.setText(vest.getText());
+            vest1.setTag(vest.getTag());
+            Optional<Rubrika> rubrika = rubrikaRepository.findByNaziv(vest.getRubrikaName());
+            vest1.setRubrika(rubrika.get());
+            vestReposotory.save(vest1);
+        }
+
+    }
 }

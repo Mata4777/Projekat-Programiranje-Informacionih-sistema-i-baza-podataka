@@ -11,20 +11,16 @@ function UserCard(props) {
   const handleClick = async () => {
     try {
       if (isNovinar) {
-        // Logic for setting as "urednik"
         await axios.get(
           `http://localhost:8080/api/user/changeRole?userId=${props.id}&role=ROLE_UREDNIK`
         );
         setIsNovinar(false);
       } else {
-        // Logic for setting as "novinar"
         await axios.get(
           `http://localhost:8080/api/user/changeRole?userId=${props.id}&role=ROLE_NOVINAR`
         );
         setIsNovinar(true);
       }
-
-      // Optionally, you can update the user role in the component state or perform other actions.
     } catch (error) {
       console.error("Error setting role:", error);
     }

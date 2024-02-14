@@ -16,7 +16,7 @@ const CreateNewsPage = () => {
     tag: "",
     text: "",
     rubrikaName: "",
-    username: userData.username, // Use a single category instead of an array
+    username: userData.username,
   });
   console.log("USER DATA " + userData.username);
 
@@ -45,6 +45,10 @@ const CreateNewsPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("Submited");
+    if (newsData.rubrikaName === "") {
+      alert("Nisu sva polja popunjena");
+      return;
+    }
 
     try {
       const response = await axios.post(
@@ -58,7 +62,7 @@ const CreateNewsPage = () => {
         }
       );
 
-      console.log(response); // Check the response in the console
+      console.log(response);
 
       if (response.status === 200) {
         setNewsData({
@@ -69,7 +73,6 @@ const CreateNewsPage = () => {
           username: userData.username,
         });
         console.log("News created successfully");
-        // Optionally, you can navigate to a success page or perform other actions
       }
     } catch (error) {
       console.error("Error during news creation:", error);
@@ -93,6 +96,7 @@ const CreateNewsPage = () => {
             <Dropdown.Menu className="p-3">
               {categoryOptions.map((category) => (
                 <FormCheck
+                  required
                   style={{ fontSize: "17px" }}
                   key={category}
                   type="radio"
@@ -104,10 +108,11 @@ const CreateNewsPage = () => {
               ))}
             </Dropdown.Menu>
           </Dropdown>
-          {/* Title */}
+
           <Form.Group controlId="formTitle">
             <Form.Label>Title</Form.Label>
             <Form.Control
+              required
               type="text"
               placeholder="Enter title"
               name="naslov"
@@ -115,10 +120,11 @@ const CreateNewsPage = () => {
               onChange={handleInputChange}
             />
           </Form.Group>
-          {/* Tag */}
+
           <Form.Group controlId="formTitle">
             <Form.Label>Tag</Form.Label>
             <Form.Control
+              required
               type="text"
               placeholder="Enter tag"
               name="tag"
@@ -127,10 +133,10 @@ const CreateNewsPage = () => {
             />
           </Form.Group>
 
-          {/* Text (React-Quill Editor) */}
           <Form.Group controlId="formText">
             <Form.Label>Text</Form.Label>
             <ReactQuill
+              required
               className="mb-2"
               value={newsData.text}
               onChange={handleQuillChange}

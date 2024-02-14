@@ -20,7 +20,7 @@ const Register = () => {
     if (name === "role") {
       setFormData((prevData) => ({
         ...prevData,
-        role: checked, // set to true or false
+        role: checked,
       }));
     } else {
       setFormData((prevData) => ({
@@ -33,10 +33,8 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Determine the role based on the switch
     const role = formData.role ? "ROLE_UREDNIK" : "ROLE_NOVINAR";
 
-    // Combine the form data with the selected categories
     const userData = {
       ...formData,
       role,
@@ -45,7 +43,6 @@ const Register = () => {
     console.log(JSON.stringify(userData));
 
     try {
-      // Send a POST request to your backend with the user data
       const response = await axios.post(
         "http://localhost:8080/api/user/new",
         userData
@@ -57,7 +54,6 @@ const Register = () => {
         rubrike: [],
       });
 
-      // Optionally, you can handle the response here (e.g., redirect to a different page)
       console.log("Registration successful:", response.data);
     } catch (error) {
       console.error("Error during registration:", error);
@@ -73,7 +69,7 @@ const Register = () => {
 
     setSelectedCategories(updatedCategories);
   };
-  const categoryOptions = ["Politics", "Technology", "Sports", "Entertainment"];
+  const categoryOptions = ["Politics", "Technology", "Sport", "Entertainment"];
 
   return (
     <div>

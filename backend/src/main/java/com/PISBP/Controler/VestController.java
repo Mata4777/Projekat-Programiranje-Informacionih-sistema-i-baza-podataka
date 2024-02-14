@@ -27,6 +27,12 @@ public class VestController {
         return ResponseEntity.ok().body(vesti);
     }
 
+    @PostMapping("/update")
+    public ResponseEntity<String> updateNews(@RequestBody NewVest vest, @RequestParam Integer id){
+        vestService.updateVest(vest,id);
+        return ResponseEntity.ok().body("Success");
+    }
+
     @GetMapping("/all")
     public ResponseEntity<List<VestBaseInfo>> getAll(){
         List<VestBaseInfo> vesti= vestService.getAll();

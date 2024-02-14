@@ -2,8 +2,9 @@ import EditButtons from "../components/EditButtons";
 import NavbarNovinar from "../components/navbars/NavBarNovinar";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
+import NovinarReadNewsCard from "../components/NovinarReadNewsCard";
+import NovinarPreviousComments from "../components/NovinarPreviousComments";
 import axios from "axios";
-import ReadNewsCard from "../components/ReadNewsCard";
 
 const NewsNovinar = () => {
   const { id } = useParams();
@@ -24,16 +25,16 @@ const NewsNovinar = () => {
     loadNews();
   }, [id]);
 
-  console.log("NEWS u NEWSPAGE " + JSON.stringify(news));
+  console.log("KOMENTARI u NEWSPAGE " + JSON.stringify(news));
   return (
     <div>
       <NavbarNovinar />
 
       {news ? (
         <>
-          <ReadNewsCard {...news} />
-          <EditButtons />
-          {/* <Comments comments={news.Comments} /> */}
+          <NovinarReadNewsCard {...news} />
+          <EditButtons {...news} />
+          <NovinarPreviousComments komentari={news.komentari} />
         </>
       ) : (
         <p>Loading...</p>

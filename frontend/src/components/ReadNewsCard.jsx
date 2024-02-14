@@ -65,7 +65,6 @@ const ReadNewsCard = (props) => {
             dangerouslySetInnerHTML={{ __html: props.text }}
           ></Card.Text>
 
-          {/* Like Button with ThumbsUp icon */}
           <Button
             variant={isLiked ? "success" : "outline-success"}
             onClick={handleLikeClick}
@@ -73,7 +72,6 @@ const ReadNewsCard = (props) => {
             <FaThumbsUp /> ({likeCount})
           </Button>
 
-          {/* Dislike Button with ThumbsDown icon */}
           <Button
             variant={isDisliked ? "danger" : "outline-danger"}
             onClick={handleDislikeClick}

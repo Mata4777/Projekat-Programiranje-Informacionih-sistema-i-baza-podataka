@@ -11,7 +11,6 @@ const NavbarUrednik = () => {
   const { userData, setUser } = useUser();
   const navigate = useNavigate();
   const handleLogout = () => {
-    // Clear user data and navigate to "/"
     setUser(null);
     navigate("/");
   };
@@ -34,11 +33,8 @@ const NavbarUrednik = () => {
                 <DropdownButton
                   id="dropdown-basic-button"
                   title={userData.username}
-                  drop="start" // Use "end" to align the menu to the right
+                  drop="start"
                 >
-                  <Dropdown.Item as={Link} to={`/Urednik/${userData.userId}`}>
-                    Add news
-                  </Dropdown.Item>
                   <Dropdown.Item as={Link} to={`/Urednik/${userData.userId}`}>
                     Home
                   </Dropdown.Item>

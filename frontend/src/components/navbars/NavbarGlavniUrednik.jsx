@@ -12,7 +12,6 @@ const NavbarGlavniUrednik = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    // Clear user data and navigate to "/"
     setUser(null);
     navigate("/");
   };

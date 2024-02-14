@@ -8,7 +8,6 @@ import { useUser } from "../components/UserHooks";
 
 const HomeNovinar = () => {
   const { userData } = useUser();
-  //const id = useParams();
   const [news, setNews] = useState([]);
 
   useEffect(() => {

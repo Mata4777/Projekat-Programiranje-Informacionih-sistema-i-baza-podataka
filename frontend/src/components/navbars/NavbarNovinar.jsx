@@ -12,7 +12,6 @@ const NavbarNovinar = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    // Clear user data and navigate to "/"
     setUser(null);
     navigate("/");
   };
@@ -38,7 +37,7 @@ const NavbarNovinar = () => {
                 <DropdownButton
                   id="dropdown-basic-button"
                   title={userData.username}
-                  drop="start" // Use "end" to align the menu to the right
+                  drop="start"
                 >
                   <Dropdown.Item
                     as={Link}

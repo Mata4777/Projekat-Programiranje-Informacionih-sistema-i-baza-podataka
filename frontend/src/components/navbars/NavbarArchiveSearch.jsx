@@ -23,12 +23,10 @@ const NavbarArchiveSearch = ({ news, setFilteredNews }) => {
     });
     setSelectedDate(formattedDate);
   };
-  console.log(news);
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
 
-    // Filter news based on the search query and date filter
     const filteredNews = news.filter((vest) => {
       const isTitleMatch = vest.naslov
         .toLowerCase()
@@ -38,33 +36,19 @@ const NavbarArchiveSearch = ({ news, setFilteredNews }) => {
         .includes(searchQuery.toLowerCase());
       const isDateMatch = !selectedDate || vest.datum === selectedDate;
 
-      if (selectedDate) {
-        // Clear the search query when searching by date
-        setSearchQuery("");
-      }
-
-      // Apply the appropriate filtering logic based on the user's search type
-      if (isTitleMatch && isDateMatch && isTagMatch) {
-        return true; // All conditions are met
-      } else if (isDateMatch && isTagMatch) {
-        return true; // Searching by date
-      } else if (isDateMatch && isTitleMatch) {
-        return true; // Searching by title
-      } else if (isTitleMatch && isTagMatch) {
-        return true; // Searching by tag
+      if (isDateMatch && (isTitleMatch || isTagMatch) && searchQuery != "") {
+        return true;
       } else {
         return false;
       }
     });
 
-    // Update the filtered news state
     setFilteredNews(filteredNews);
   };
 
   const handleAllButtonClick = () => {
-    // Reset the filtered news to the original list of all news
     setFilteredNews(news);
-    // Clear the search query and selected date
+
     setSearchQuery("");
     setSelectedDate(null);
     navigate("/Archive");
@@ -73,7 +57,9 @@ const NavbarArchiveSearch = ({ news, setFilteredNews }) => {
   return (
     <Navbar fixed="top" expand="lg" variant="dark" className="bg-dark shadow">
       <Container fluid>
-        <Navbar.Brand href="#">News</Navbar.Brand>
+        <Navbar.Brand as={Link} to={"/"} href="#">
+          News
+        </Navbar.Brand>
 
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">

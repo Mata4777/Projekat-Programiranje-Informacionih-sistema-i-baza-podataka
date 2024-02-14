@@ -15,6 +15,7 @@ import NewsNovinar from "./pages/NewsNovinar";
 import HomeGlavniUrednik from "./pages/HomeGlavniUrednik";
 import AllUsers from "./pages/AllUsers";
 import EditNews from "./pages/EditNews";
+import NewsUrednik from "./pages/NewsUrednik";
 
 const App = () => {
   return (
@@ -27,7 +28,7 @@ const App = () => {
           <Route exact path="/Urednik/:id" element={<HomeUrednik />}></Route>
           <Route
             exact
-            path="/:id/NewsNovinar/Edit/:id"
+            path="/NewsNovinar/Edit/:id"
             element={<EditNews />}
           ></Route>
           <Route
@@ -56,6 +57,11 @@ const App = () => {
             exact
             path="/:id/NewsNovinar/:id"
             element={<NewsNovinar />}
+          ></Route>
+          <Route
+            exact
+            path="/:id/NewsUrednik/:id"
+            element={<NewsUrednik />}
           ></Route>
         </Routes>
       </Router>
